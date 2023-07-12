@@ -34,4 +34,13 @@ public interface OrganizationDetailRepository {
             """)
     UUID addOrganization(@Param("req") OrganizationDetailRequest organizationDetailRequest, String code);
 
+    @Select("""
+            select r.name from organization_detail od
+            inner join role r
+            on r.id = od.role_id
+            where od.user_id = #{userId}
+            and od.organization_id = #{orgId}
+            and od.deleted_at is null
+            """)
+    String getExistRoleInOrganization(UUID userId, UUID orgId);
 }

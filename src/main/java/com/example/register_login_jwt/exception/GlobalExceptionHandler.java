@@ -134,14 +134,14 @@ public class GlobalExceptionHandler {
 //        return problemDetail;
 //    }
 //
-//    @ExceptionHandler(ForbiddenExceptionHandler.class)
-//    ProblemDetail handleForbiddenExceptionHandler(ForbiddenExceptionHandler e) {
-//        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, e.getMessage());
-//        problemDetail.setTitle("403 Forbidden");
-//        problemDetail.setProperty("timestamp", Instant.now());
-//        problemDetail.setType(URI.create("localhost:8080/errors/forbiddden"));
-//        return problemDetail;
-//    }
+    @ExceptionHandler(ForbiddenExceptionHandler.class)
+    ProblemDetail handleForbiddenExceptionHandler(ForbiddenExceptionHandler e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, e.getMessage());
+        problemDetail.setTitle("403 Forbidden");
+        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setType(URI.create("localhost:8080/errors/forbiddden"));
+        return problemDetail;
+    }
 //
 
 //
