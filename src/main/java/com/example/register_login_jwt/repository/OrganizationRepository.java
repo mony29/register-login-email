@@ -24,9 +24,9 @@ public interface OrganizationRepository {
                     @Result(column = "is_member", property = "isMember"),
                     @Result(column = "is_active", property = "isActive"),
                     @Result(column = "total_user", property = "totalUser"),
-                    @Result(column = "id", property = "users",
-                            many = @Many(select = "com.kshrd.asset_tracer_api.repository.UserAppRepository.getAllUsersByOrganizationId")
-                    ),
+//                    @Result(column = "id", property = "users",
+//                            many = @Many(select = "com.kshrd.asset_tracer_api.repository.UserAppRepository.getAllUsersByOrganizationId")
+//                    ),
             })
     @Select("""
             select id from organization
@@ -36,7 +36,7 @@ public interface OrganizationRepository {
 
     @Select("""
             insert into organization(name, code, address, logo, created_by)
-            values(#{req.name}, #{code}, #{req.address}, #{req.logo}, #{getCurrentUserId})
+            values(#{req.name}, #{code}, #{req.address}, #{req.logo}, #{currentUser})
             returning id
             """)
     UUID createOrganization(@Param("req") OrganizationRequest organizationRequest, String code, UUID currentUser);

@@ -31,8 +31,12 @@ public class UserAppServiceImp implements UserAppService, UserDetailsService {
     private final EmailVerificationRepository emailVerificationRepository;
 
     public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
+        // important, It use to match with userApp that it return
+//        System.out.println("email : " + userEmail);
         UserApp userApp = userAppRepository.getUserByEmail(userEmail);
+//        System.out.println("userApp " + userApp);
         if (userApp == null) {
+//            System.out.println("hhhhhhhhhhh");
             throw new NotFoundExceptionHandler("User not found");
         } else if (userEmail.isEmpty()) {
             throw new FieldEmptyExceptionHandler("Email field is empty");
@@ -80,6 +84,7 @@ public class UserAppServiceImp implements UserAppService, UserDetailsService {
     }
 
     public UserAppDTO getUserById(UUID userId) {
+//        System.out.println("Hiiii " + userId);
         userApp = userAppRepository.getUserById(userId);
         if (userApp == null) {
             throw new NotFoundExceptionHandler("User not found");

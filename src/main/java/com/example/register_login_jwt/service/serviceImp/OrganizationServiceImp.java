@@ -66,25 +66,6 @@ public class OrganizationServiceImp implements OrganizationService {
         return organizationId;
     }
 
-
-
-//
-//        String code = "";
-//        while (true) {
-//            Random random = new Random();
-//            code = String.format("%06d", random.nextInt(999999));
-//
-//            if(organizationRepository.getOrganizationByCode(code) == null) {
-//                break;
-//            }
-//        }
-//
-//        UUID organizationId = organizationRepository.addOrganization(organizationRequest, code, getCurrentUser());
-//        organizationRepository.addOrganizationDetail(getCurrentUser(), organizationId, getCurrentUser());
-//
-//        return organizationId;
-//    }
-
     @Override
     public OrganizationDTO getOrganizationById(UUID organizationId) {
         Organization organization = organizationRepository.getOrganizationById(organizationId);

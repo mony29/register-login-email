@@ -1,6 +1,6 @@
 package com.example.register_login_jwt.service;
 
-import com.example.register_login_jwt.config.JwtUtil;
+import com.example.register_login_jwt.config.JwtTokenUtil;
 import com.example.register_login_jwt.exception.*;
 import com.example.register_login_jwt.model.entity.UserApp;
 import com.example.register_login_jwt.model.request.AuthRequest;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-    private final JwtUtil jwtUtil;
+    private final JwtTokenUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
     private final UserAppRepository userAppRepository;
 
@@ -55,6 +55,7 @@ public class AuthService {
                     .token(jwtToken)
                     .build();
         } catch (Exception e) {
+            System.out.println(e);
             throw new PasswordNotMatchExceptionHandler("Password not match");
         }
     }

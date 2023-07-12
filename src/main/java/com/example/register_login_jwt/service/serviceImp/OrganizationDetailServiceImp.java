@@ -64,7 +64,7 @@ public class OrganizationDetailServiceImp implements OrganizationDetailService {
         UUID id = organizationDetailRepository.addOrganization(organizationDetailRequest, code);
         OrganizationDetail organizationDetail = organizationDetailRepository.userAddNewOrganizationDetail(organizationDetailRequest.getUserId(), id);
 
-        System.out.println("--- Organization Detail --- " + organizationDetail);
+//        System.out.println("--- Organization Detail --- " + organizationDetail);
         return organizationDetailMapper.INSTANCE.toOrganizationDetailDto(organizationDetail);
     }
 

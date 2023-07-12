@@ -2,6 +2,7 @@ package com.example.register_login_jwt.model.entity;
 
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Timestamp;
@@ -38,7 +39,7 @@ public class UserApp implements UserDetails {
 
     @Override
     public String getUsername() {
-        return name;
+        return email;       // important, It uses to match with loaduser at UserServiceImplement
     }
 
     @Override

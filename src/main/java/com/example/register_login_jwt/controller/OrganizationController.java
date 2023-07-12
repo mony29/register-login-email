@@ -8,6 +8,7 @@ import com.example.register_login_jwt.service.OrganizationService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,9 @@ public class OrganizationController {
     private final OrganizationService organizationService;
     @PostMapping
     public ResponseEntity<?> createOrganization(@RequestBody OrganizationRequest organizationRequest) {
+//        System.out.println("Helloooooo");
+//        System.out.println(organizationRequest);
+//        System.out.println("Hello user " + SecurityContextHolder.getContext().getAuthentication());
         UUID getId = organizationService.createOrganization(organizationRequest);
         return BodyResponse.getBodyResponse(organizationService.getOrganizationById(getId));
     }
