@@ -81,7 +81,7 @@ public class JwtUtil {
 //    }
 
     private static final String SECRET_KEY = "78214125442A472D4B6150645367566B59703373367639792F423F4528482B4D";
-    private static final long JWT_TOKEN_VALIDITY = 1000 * 3600 * 24;
+    private static final long JWT_TOKEN_VALIDITY = 1000 * 3600 * 24 * 90; // set to expire in 3 months
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
     }
@@ -118,7 +118,7 @@ public class JwtUtil {
                 .setClaims(extraClaims)
                 .setSubject(userApp.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 90)) // set to expire in 3 months
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

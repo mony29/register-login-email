@@ -13,7 +13,8 @@
 <p>Follow this link to verify your email address</p>
 <!--<a th:href="${link}"><p th:text="${link}"></p></a>-->
 
-<a th:href="@{http://localhost:5173/signin(code=${code})}">Click to Verify</a>
+<!--<a th:href="@{http://localhost:5173/signin(code=${code})}">Click to Verify</a>-->
+<a th:href="@{http://localhost:8080/api/v1/auth/verify(code=${code})}">Click to Verify</a>
 
 <input type="hidden" id="verification-link" th:value="${link}">
 <!--<p>Your email: <span th:text="${email}"></span> </p>-->

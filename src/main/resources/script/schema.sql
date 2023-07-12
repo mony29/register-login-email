@@ -43,3 +43,35 @@ create table role
 insert into role (name)
 VALUES ('ADMIN'),
        ('USER');
+
+-- Create table organization
+create table organization (
+                              id uuid not null default gen_random_uuid() primary key ,
+                              name varchar(100) not null ,
+                              code varchar(50) not null ,
+                              address text ,
+                              logo text ,
+                              created_at timestamp default current_timestamp ,
+                              created_by uuid references user_acc(id) not null ,
+                              updated_at timestamp ,
+                              updated_by uuid ,
+                              deleted_at timestamp,
+                              deleted_by uuid
+);
+
+-- Create table organization detail
+create table organization_detail (
+                                     user_id uuid references user_acc(id) not null ,
+                                     organization_id uuid references  organization(id) not null ,
+                                     role_id uuid references role(id) not null ,
+                                     is_active boolean default false ,
+                                     is_member boolean default false ,
+                                     status varchar(50) ,
+                                     created_at timestamp default current_timestamp ,
+                                     created_by uuid references user_acc(id) not null ,
+                                     updated_at timestamp ,
+                                     updated_by uuid references user_acc(id),
+                                     deleted_at timestamp ,
+                                     deleted_by uuid references user_acc(id) ,
+                                     primary key (user_id, organization_id)
+);

@@ -39,4 +39,11 @@ public interface UserAppRepository {
             where id = #{userId}
             """)
     void updateUserSetting(UUID userId);
+
+    @Select("""
+                select * from user_acc where id = #{userId}
+            """)
+    @ResultMap("userMap")
+    UserApp getUserById(@Param("userId") UUID userId);
+
 }

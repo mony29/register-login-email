@@ -90,6 +90,15 @@ public class GlobalExceptionHandler {
         return problemDetail;
     }
 
+    @ExceptionHandler(UnauthorizedExceptionHandler.class)
+    ProblemDetail handleUnauthenticatedExceptionHandler(UnauthorizedExceptionHandler e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, e.getMessage());
+        problemDetail.setTitle("User Not Authorized");
+        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setType(URI.create("localhost:8080/errors/unauthorized"));
+        return problemDetail;
+    }
+
 //    @ExceptionHandler(EmptyDataExceptionHandler.class)
 //    ProblemDetail handleEmptyDataExceptionHandler(EmptyDataExceptionHandler e) {
 //        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
@@ -134,14 +143,7 @@ public class GlobalExceptionHandler {
 //        return problemDetail;
 //    }
 //
-//    @ExceptionHandler(UnauthorizedExceptionHandler.class)
-//    ProblemDetail handleUnauthenticatedExceptionHandler(UnauthorizedExceptionHandler e) {
-//        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, e.getMessage());
-//        problemDetail.setTitle("User Not Authorized");
-//        problemDetail.setProperty("timestamp", Instant.now());
-//        problemDetail.setType(URI.create("localhost:8080/errors/unauthorized"));
-//        return problemDetail;
-//    }
+
 //
 //    @ExceptionHandler(DataDuplicateExceptionHandler.class)
 //    ProblemDetail handleDataDuplicateExceptionHandler(DataDuplicateExceptionHandler e) {

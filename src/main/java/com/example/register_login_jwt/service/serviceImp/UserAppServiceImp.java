@@ -78,4 +78,12 @@ public class UserAppServiceImp implements UserAppService, UserDetailsService {
             throw new NotValidValueExceptionHandler("Email not valid");
         }
     }
+
+    public UserAppDTO getUserById(UUID userId) {
+        userApp = userAppRepository.getUserById(userId);
+        if (userApp == null) {
+            throw new NotFoundExceptionHandler("User not found");
+        }
+        return UserAppMapper.INSTANCE.toUserAppDto(userApp);
+    }
 }

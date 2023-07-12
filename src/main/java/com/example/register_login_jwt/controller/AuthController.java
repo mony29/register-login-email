@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
@@ -24,6 +26,11 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserAppRequest userAppRequest) throws MessagingException {
         return BodyResponse.getBodyResponse(userAppServiceImp.register(userAppRequest));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable("id") UUID userId) {
+        return BodyResponse.getBodyResponse(userAppServiceImp.getUserById(userId));
     }
 
     @GetMapping("/verify")
