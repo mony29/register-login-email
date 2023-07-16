@@ -6,6 +6,7 @@ import com.example.register_login_jwt.model.request.OrganizationRequest;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
+import java.util.List;
 import java.util.UUID;
 
 @Mapper
@@ -48,6 +49,8 @@ public interface OrganizationRepository {
             returning organization_id
             """)
     UUID addOrganizationDetail(UUID userId, UUID organizationId, UUID getCurrentUserId);
+
+
     @ResultMap("organizationMapper")
     @Select("""
             select id, name, code, address, logo, created_at
@@ -55,4 +58,11 @@ public interface OrganizationRepository {
             where id = #{organizationId} and deleted_at is null
             """)
     Organization getOrganizationById(UUID organizationId);
+
+    @ResultMap("organizationMapper")
+    @Select("""
+            select * from organization
+            where deleted_at is null
+            """)
+    List<Organization> getAllOrganization();
 }

@@ -5,7 +5,9 @@ import com.example.register_login_jwt.model.entity.Room;
 import com.example.register_login_jwt.model.request.RoomRequest;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
 import java.util.UUID;
 @Mapper
 public interface RoomRepository {
@@ -56,4 +58,13 @@ public interface RoomRepository {
     UUID deleteRoom(@Param("id") UUID roomId, UUID getCurrentUserId);
 
 
+    @Select("""
+            select r.*, ua.name created_by_username
+            from room r
+            inner join user_acc ua on ua.id = r.created_by
+            where r.deleted_at is null
+            and r.organization_id = #{orgId}
+            """)
+    @RequestMapping("roomMapper")
+    List<Room> getAllRooms(UUID orgId);
 }

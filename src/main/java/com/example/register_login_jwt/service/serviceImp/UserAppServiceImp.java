@@ -11,6 +11,8 @@ import com.example.register_login_jwt.service.MailSenderService;
 import com.example.register_login_jwt.service.UserAppService;
 import lombok.RequiredArgsConstructor;
 import jakarta.mail.MessagingException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,9 +20,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
-
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class UserAppServiceImp implements UserAppService, UserDetailsService {
     private final UserAppRepository userAppRepository;
     private final BCryptPasswordEncoder passwordEncoder;
@@ -31,12 +32,11 @@ public class UserAppServiceImp implements UserAppService, UserDetailsService {
     private final EmailVerificationRepository emailVerificationRepository;
 
     public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
-        // important, It use to match with userApp that it return
-//        System.out.println("email : " + userEmail);
+
         UserApp userApp = userAppRepository.getUserByEmail(userEmail);
-//        System.out.println("userApp " + userApp);
+        System.out.println("Load User : " + userApp);
+
         if (userApp == null) {
-//            System.out.println("hhhhhhhhhhh");
             throw new NotFoundExceptionHandler("User not found");
         } else if (userEmail.isEmpty()) {
             throw new FieldEmptyExceptionHandler("Email field is empty");
@@ -52,6 +52,8 @@ public class UserAppServiceImp implements UserAppService, UserDetailsService {
     public UserAppDTO register(UserAppRequest userAppRequest) throws MessagingException {
         String email = userAppRepository.getEmail(userAppRequest.getEmail());
 
+        System.out.println("Email should be null : " + email);
+
         if (userAppRequest.getEmail().equalsIgnoreCase(email)) {
             throw new UserDuplicateExceptionHandler("User already registered");
         } else {
@@ -60,10 +62,14 @@ public class UserAppServiceImp implements UserAppService, UserDetailsService {
 
         userAppRequest.setPassword(passwordEncoder.encode(userAppRequest.getPassword()));
         userApp = userAppRepository.insertUser(userAppRequest);
+
+        System.out.println("userApp : " + userApp);
+
         userAppDTO = userAppMapper.INSTANCE.toUserAppDto(userApp);
 
         String code = UUID.randomUUID().toString();
         emailVerificationRepository.insertEmailVerification(userApp.getId(), code);
+
         mailSenderService.sendMail(userAppRequest, code);
 
         return userAppDTO;
@@ -84,7 +90,7 @@ public class UserAppServiceImp implements UserAppService, UserDetailsService {
     }
 
     public UserAppDTO getUserById(UUID userId) {
-//        System.out.println("Hiiii " + userId);
+
         userApp = userAppRepository.getUserById(userId);
         if (userApp == null) {
             throw new NotFoundExceptionHandler("User not found");

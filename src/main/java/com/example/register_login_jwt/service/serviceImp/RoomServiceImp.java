@@ -32,7 +32,7 @@ public class RoomServiceImp implements RoomService {
         Object getContext = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (getContext.equals("anonymousUser")) {
-            throw new UnauthorizedExceptionHandler("Unauthorized User");
+            throw new UnauthorizedExceptionHandler("Unauthorized");
         }
 
         UserApp user = (UserApp) getContext;
@@ -41,6 +41,7 @@ public class RoomServiceImp implements RoomService {
 
     @Override
     public RoomDTO getRoomById(UUID roomId) {
+
         if(getCurrentUser()==null){
             throw new ForbiddenExceptionHandler("Access Denied, Please log in");
         }
@@ -69,7 +70,7 @@ public class RoomServiceImp implements RoomService {
         String roleName = organizationDetailRepository.getExistRoleInOrganization(getCurrentUser(), organizationId);
 
         if (roleName == null || !roleName.equals("ADMIN")) {
-            throw new ForbiddenExceptionHandler("Access Denied Page");
+            throw new ForbiddenExceptionHandler("Access Denied, Please check organization id");
         }
 
         return roomRepository.addRoom(roomRequest, getCurrentUser());
@@ -92,7 +93,7 @@ public class RoomServiceImp implements RoomService {
         String roleName = organizationDetailRepository.getExistRoleInOrganization(getCurrentUser(), organizationId);
 
         if (roleName == null || !roleName.equals("ADMIN")) {
-            throw new NotFoundExceptionHandler("Access Denied Page");
+            throw new ForbiddenExceptionHandler("Access Denied, Please check organization id");
         }
         else if (roomRepository.getRoomById(roomId) == null) {
             throw new NotFoundExceptionHandler("Room not found");
@@ -112,6 +113,22 @@ public class RoomServiceImp implements RoomService {
         }
 
         return roomRepository.deleteRoom(roomId, getCurrentUser());
+    }
+
+    @Override
+    public List<RoomDTO> getAllRooms(UUID orgId) {
+
+        rooms = roomRepository.getAllRooms(orgId);
+
+        if (getCurrentUser() == null){
+            throw new ForbiddenExceptionHandler("Access Denied, Please login");
+        }
+
+        if(rooms.isEmpty()) {
+            throw new NotFoundExceptionHandler("Room is empty");
+        }
+
+        return roomMapper.INSTANCE.toRoomDtos(rooms);
     }
 
 }

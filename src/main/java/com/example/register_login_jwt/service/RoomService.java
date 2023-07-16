@@ -12,4 +12,5 @@ public interface RoomService {
     UUID updateRoom(RoomRequest roomRequest, UUID roomId);
     UUID deleteRoom(UUID roomId);
 
+    List<RoomDTO> getAllRooms(UUID orgId);
 }

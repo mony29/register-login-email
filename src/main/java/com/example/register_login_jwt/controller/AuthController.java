@@ -2,7 +2,7 @@ package com.example.register_login_jwt.controller;
 
 import com.example.register_login_jwt.model.request.UserAppRequest;
 import com.example.register_login_jwt.model.request.AuthRequest;
-import com.example.register_login_jwt.response.BodyResponse;
+import com.example.register_login_jwt.model.response.BodyResponse;
 import com.example.register_login_jwt.service.AuthService;
 import com.example.register_login_jwt.service.EmailVerificationService;
 import com.example.register_login_jwt.service.serviceImp.UserAppServiceImp;
@@ -28,8 +28,8 @@ public class AuthController {
         return BodyResponse.getBodyResponse(userAppServiceImp.register(userAppRequest));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable("id") UUID userId) {
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> getUserById(@PathVariable("userId") UUID userId) {
         return BodyResponse.getBodyResponse(userAppServiceImp.getUserById(userId));
     }
 

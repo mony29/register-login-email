@@ -9,6 +9,10 @@ import org.apache.ibatis.type.JdbcType;
 import java.util.UUID;
 @Mapper
 public interface UserAppRepository {
+
+    /**
+     *
+     */
     @Results( id = "userMap",
             value = {
                     @Result(column = "id", property = "id", jdbcType = JdbcType.OTHER, typeHandler = UuidTypeHandler.class),
@@ -22,11 +26,18 @@ public interface UserAppRepository {
             """)
     UserApp getUserByEmail(String userEmail);
 
+
+    /**
+     * 1
+     */
     @Select("""
             select email from user_acc where email = #{userEmail}
             """)
     String getEmail(String userEmail);
 
+    /**
+     * 2
+     */
     @Select("""
             insert into user_acc(name, email, password)
             values(#{req.name}, #{req.email}, #{req.password})
@@ -34,6 +45,9 @@ public interface UserAppRepository {
             """)
     UserApp insertUser(@Param("req") UserAppRequest userAppRequest);
 
+    /**
+     * 6
+     */
     @Update("""
             update user_acc set is_enabled = true, is_account_non_locked = true, is_account_non_expired = true
             where id = #{userId}

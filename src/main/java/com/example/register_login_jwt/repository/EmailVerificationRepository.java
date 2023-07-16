@@ -6,14 +6,13 @@ import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 import java.util.UUID;
+
 @Mapper
 public interface EmailVerificationRepository {
-    @Select("""
-                insert into email_verification (user_id, code)
-                values (#{user_id}, #{code})
-            """)
-    void insertEmailVerification(UUID user_id, String code);
-    
+
+    /**
+     * 4
+     */
     @Results( id = "emailVerificationMap",
             value = {
                     @Result(column = "id", property = "id", jdbcType = JdbcType.OTHER, typeHandler = UuidTypeHandler.class),
@@ -27,8 +26,38 @@ public interface EmailVerificationRepository {
             """)
     EmailVerification getEmailVerificationByCode(@Param("code") String code);
 
+    /**
+     * 3
+     */
+    @Select("""
+                insert into email_verification (user_id, code)
+                values (#{user_id}, #{code})
+            """)
+    void insertEmailVerification(UUID user_id, String code);
+
+
+    @Select("""
+            insert into email_verification (user_id, code, is_verified)
+            values (#{user_id}, #{code}, true)
+            """)
+    void insertEmailVerify(UUID user_id, String code);
+
+
+
+    @Select("""
+                select * from email_verification where user_id = #{userId}
+            """)
+    @ResultMap("emailVerificationMap")
+    EmailVerification getEmailVerificationByUserId(@Param("userId") UUID userId);
+
+
+
+    /**
+     * 5
+     */
     @Update("""
                 update email_verification set is_verified = true where code = #{code}
             """)
     void updateIsVerified(String code);
+
 }

@@ -15,15 +15,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
         scheme = "bearer"
 )
 @OpenAPIDefinition(
-        info = @Info(title = "Asset Tracer", version = "v1", description = ""),
-        servers = {@Server(url = "/", description = "default route"), @Server(url = "https://api.assettracer.net", description = "HTTPS")}
+        info = @Info(title = "Register & Login with JWT", version = "v1", description = "")
 )
 @CrossOrigin()
 @SpringBootApplication
 public class RegisterLoginJwtApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(RegisterLoginJwtApplication.class, args);
     }
-
 }

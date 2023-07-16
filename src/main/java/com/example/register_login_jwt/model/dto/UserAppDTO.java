@@ -1,12 +1,16 @@
 package com.example.register_login_jwt.model.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 import java.util.UUID;
+
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class UserAppDTO {
     private UUID id;
@@ -15,7 +19,7 @@ public class UserAppDTO {
     private String gender;
     private String phone;
     private String address;
-    private String profile;
+    private String image;
     private Boolean isEnabled;
     private Boolean isAccountNonLocked;
     private Boolean isAccountNonExpired;

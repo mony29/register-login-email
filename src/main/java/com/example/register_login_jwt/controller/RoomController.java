@@ -1,8 +1,9 @@
 package com.example.register_login_jwt.controller;
 
 import com.example.register_login_jwt.model.request.RoomRequest;
+import com.example.register_login_jwt.model.response.BodyResponse;
 import com.example.register_login_jwt.repository.RoomRepository;
-import com.example.register_login_jwt.response.BodyResponse;
+
 import com.example.register_login_jwt.service.RoomService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
@@ -43,5 +44,10 @@ public class RoomController {
         return BodyResponse.getBodyResponse(roomService.deleteRoom(roomId));
     }
 
+
+    @GetMapping("/{orgId}/get-all-rooms-in-org")
+    public ResponseEntity<?> getAllRooms(@PathVariable("orgId") UUID orgId){
+        return BodyResponse.getBodyResponse(roomService.getAllRooms(orgId));
+    }
 
 }

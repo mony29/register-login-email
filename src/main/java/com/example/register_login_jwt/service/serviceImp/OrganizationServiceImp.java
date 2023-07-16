@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -38,7 +39,7 @@ public class OrganizationServiceImp implements OrganizationService {
 
     @Override
     public UUID createOrganization(OrganizationRequest organizationRequest) {
-        System.out.println(SecurityContextHolder.getContext().getAuthentication());
+
         UserApp user = userAppRepository.getUserById(getCurrentUser());
 
         if (user == null) {
@@ -68,11 +69,33 @@ public class OrganizationServiceImp implements OrganizationService {
 
     @Override
     public OrganizationDTO getOrganizationById(UUID organizationId) {
+
+        if(getCurrentUser() == null){
+            throw new UnauthorizedExceptionHandler("Unauthorized");
+        }
+
         Organization organization = organizationRepository.getOrganizationById(organizationId);
+
         if(organization == null){
             throw new NotFoundExceptionHandler("Organization not found");
         }
 
         return organizationMapper.INSTANCE.toOrganizationDto(organization);
+    }
+
+    @Override
+    public List<OrganizationDTO> getAllOrganization() {
+
+        if(getCurrentUser() == null){
+            throw new UnauthorizedExceptionHandler("Unauthorized");
+        }
+
+        List<Organization> organizations = organizationRepository.getAllOrganization();
+
+        if(organizations == null){
+            throw new NotFoundExceptionHandler("Organization not found");
+        }
+
+        return organizationMapper.INSTANCE.toOrganizationDto(organizations);
     }
 }

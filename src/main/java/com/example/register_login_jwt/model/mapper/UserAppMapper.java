@@ -6,12 +6,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
-
 @Mapper(componentModel = "spring")
 public interface UserAppMapper {
     UserAppMapper INSTANCE = Mappers.getMapper(UserAppMapper.class);
-
     UserAppDTO toUserAppDto(UserApp userApp);
+    List<UserAppDTO> toUserAppDtos (List<UserApp> list);
 
-    List<UserAppDTO> toUserAppDtos(List<UserApp> userApps);
 }
